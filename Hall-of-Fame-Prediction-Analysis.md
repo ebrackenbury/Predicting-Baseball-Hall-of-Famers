@@ -640,3 +640,70 @@ at some point.
 ``` r
 fielders <- fielders[fielders$playerID != "rosepe01",]
 ```
+
+Let’s examine number of career hits.
+
+``` r
+plotfunc("hits")
+```
+
+    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+
+![](Hall-of-Fame-Prediction-Analysis_files/figure-gfm/hits_pot-1.png)<!-- -->
+
+Hits appears to be a great predictor variable. Every player in our
+dataset with at least 3000 hits (with the exception of the previously
+mentioned Palmeiro) has been inducted.
+
+``` r
+plotfunc("home_runs")
+```
+
+    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+
+![](Hall-of-Fame-Prediction-Analysis_files/figure-gfm/home_runs_plot-1.png)<!-- -->
+
+Home runs is interesting. It appears that the elite home run hitters
+tend to get elected. However, there are quite a few players with low
+home run totals that have been inducted. Let’s investigate further.
+
+``` r
+fielders %>% 
+  filter(home_runs > 400 & inducted == "N") %>% 
+  select(name, home_runs) %>% 
+  arrange(desc(home_runs))
+```
+
+    ##               name home_runs
+    ## 1      Barry Bonds       762
+    ## 2       Sammy Sosa       609
+    ## 3     Mark McGwire       583
+    ## 4  Rafael Palmeiro       569
+    ## 5    Manny Ramirez       555
+    ## 6   Gary Sheffield       509
+    ## 7       Lou Gehrig       493
+    ## 8     Fred McGriff       493
+    ## 9   Carlos Delgado       473
+    ## 10    Jose Canseco       462
+    ## 11    Dave Kingman       442
+    ## 12   Juan Gonzalez       434
+    ## 13    Andruw Jones       434
+    ## 14   Darrell Evans       414
+
+Bonds, Canseco, Gonzalez, McGwire, Palmeiro, Ramirez and Sheffield all
+have been accused of taking performance enhancing drugs at some point in
+their career. Despite varying levels of credibility to those
+accusations, the allegations are clearly holding some back from
+induction. Unfortunately, that is not reflected in the data anywhere. To
+filter out some of these players, we can refer to the “Mitchell Report”,
+released in 2007 after an investigation into steroid use amongst MLB
+players. I have provided a list of names from that report in this repo.
+
+``` r
+mitchell_report <- read.csv("mitchell report players.csv")
+
+fielders <- fielders %>%
+  mutate(mitchell = if_else(name %in% mitchell_report$Player_Name, "Y", "N"))
+
+fielders$mitchell <- as.factor(fielders$mitchell)
+```
