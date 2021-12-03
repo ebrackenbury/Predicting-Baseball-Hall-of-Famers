@@ -177,3 +177,30 @@ awards <- awards %>%
 
 fielders <- merge(fielders, awards, by.x = "playerID")
 
+# Set Colors
+colnames(fielders)
+colors <- c("Y" = "orange2",
+            "N" = "blue2")
+
+# Create Plot Function
+plotfunc <- function(var1){
+  hist <- ggplot(data = fielders, aes_string(x = var1, fill = "inducted")) +
+    geom_histogram() +
+    scale_fill_manual(values = colors)
+  box <- ggplot(data = fielders, aes_string(x = "inducted", y = var1,
+                                            fill = "inducted")) +
+    geom_boxplot() +
+    coord_flip() +
+    scale_fill_manual(values = colors)
+  grid.arrange(box, hist)
+}
+
+plotfunc("games")
+
+fielders %>% 
+  filter(inducted == "N" & games > 2750) %>% 
+  select(name, games) %>% 
+  arrange(games)
+
+fielders <- fielders[fielders$playerID != "rosepe01",]
+
