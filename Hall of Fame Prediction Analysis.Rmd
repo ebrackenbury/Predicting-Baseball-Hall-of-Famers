@@ -363,8 +363,79 @@ correlated with being inducted into the Hall of Fame.
 
 ## Exploritory Data Analysis
 
-```{r pressure, echo=FALSE}
+Before creating any graphs, I am going to manually set a color scheme. I'll
+also create a function that will create a box plot and histogram in one graph.
+
+```{r}
+colnames(fielders)
+colors <- c("Y" = "orange2",
+            "N" = "blue2")
+
+# Create Plot Function
+plotfunc <- function(var1){
+  hist <- ggplot(data = fielders, aes_string(x = var1, fill = "inducted")) +
+    geom_histogram() +
+    scale_fill_manual(values = colors)
+  box <- ggplot(data = fielders, aes_string(x = "inducted", y = var1,
+                                            fill = "inducted")) +
+    geom_boxplot() +
+    coord_flip() +
+    scale_fill_manual(values = colors)
+  grid.arrange(box, hist)
+}
 ```
+
+
+Let's take a look ar our first variable, games.
+
+```{r}
+plotfunc("games")
+```
+
+Total number of games played seems to be an indicator of whether someone is a
+hall of fame caliber player. This makes sense as the better a player is, the
+chances of them having a longer career are greater. There are some outliers
+though, which are worth investigating.
+
+```{r}
+fielders %>% 
+  filter(inducted == "N" & games > 2750) %>% 
+  select(name, games) %>% 
+  arrange(games)
+```
+
+If you know baseball history, there should be no surprise at some of these
+names. Barry Bonds and Rafael Palmeiro have been long accused of taking
+performance enhancing drugs. Pete Rose, was permanently banned from baseball
+for gambling on baseball games. Rose will have to be manually excluded and we
+will have to account for PED associated players at some point.
+
+```{r}
+fielders <- fielders[fielders$playerID != "rosepe01",]
+```
+
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+
+
+
+
+
+
+
+
 
 
 
