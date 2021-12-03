@@ -2,7 +2,9 @@
 title: "Hall of Fame Prediction Analysis"
 author: "Evan Brackenbury"
 date: "11/15/2021"
-output: github_document
+output: 
+  html_document:
+    keep_md: true
 ---
 
 ```{r setup, echo=FALSE, message=FALSE}
