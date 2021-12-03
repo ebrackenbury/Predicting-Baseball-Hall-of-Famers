@@ -608,7 +608,7 @@ Let’s take a look ar our first variable, games.
 plotfunc("games")
 ```
 
-![](Hall-of-Fame-Prediction-Analysis_files/figure-gfm/unnamed-chunk-24-1.png)<!-- -->
+![](Hall-of-Fame-Prediction-Analysis_files/figure-gfm/ggplot2ex-1.png)<!-- -->
 
 Total number of games played seems to be an indicator of whether someone
 is a hall of fame caliber player. This makes sense as the better a
