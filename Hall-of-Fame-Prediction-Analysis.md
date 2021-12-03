@@ -605,7 +605,9 @@ plotfunc <- function(var1){
 Let’s take a look ar our first variable, games.
 
 ``` r
-plotfunc("games")
+ggplot(data = fielders, aes(x = inducted, y = games, fill = inducted)) +
+  stat_summary(fun = "mean", geom = "bar") +
+  scale_fill_manual(values = colors)
 ```
 
 ![](Hall-of-Fame-Prediction-Analysis_files/figure-gfm/ggplot2ex-1.png)<!-- -->
